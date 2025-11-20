@@ -1,0 +1,70 @@
+<!-- Food Card Component -->
+<div class="card space-y-3" role="article" aria-label="Food: {{ food.name }}">
+    <div class="flex justify-between items-start gap-2">
+        <div class="flex-1">
+            <h3 class="text-xl font-bold text-blue-600">{{ food.name }}</h3>
+            {% if food.brand %}
+                <p class="text-sm text-gray-600">{{ food.brand }}</p>
+            {% endif %}
+            {% if food.category %}
+                <p class="text-xs font-medium text-blue-500 mt-1">{{ food.category.title() }}</p>
+            {% endif %}
+        </div>
+        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ food.source.title() }}</span>
+    </div>
+
+    <!-- Macronutrient Display -->
+    <div class="space-y-2">
+        <p class="text-sm font-medium text-gray-700">Per 100g:</p>
+        <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <p class="text-lg font-bold text-blue-600">{{ food.calories|int }}</p>
+                <p class="text-xs text-gray-600">Cal</p>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <p class="text-lg font-bold text-green-600">{{ food.protein|round(1) }}</p>
+                <p class="text-xs text-gray-600">P</p>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <p class="text-lg font-bold text-amber-600">{{ food.carbs|round(1) }}</p>
+                <p class="text-xs text-gray-600">C</p>
+            </div>
+            <div class="bg-white p-2 rounded border border-gray-200">
+                <p class="text-lg font-bold text-orange-600">{{ food.fat|round(1) }}</p>
+                <p class="text-xs text-gray-600">F</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weight Info (if available) -->
+    {% if food.weight_raw or food.weight_prepared %}
+        <div class="text-xs text-gray-600 space-y-1 pt-2 border-t border-gray-200">
+            {% if food.weight_raw %}
+                <p><strong>Raw weight:</strong> {{ food.weight_raw|round(1) }}g</p>
+            {% endif %}
+            {% if food.weight_prepared %}
+                <p><strong>Prepared weight:</strong> {{ food.weight_prepared|round(1) }}g</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- Backpacking Optimization (Calorie-to-Weight Ratio) -->
+    {% if food.weight_raw %}
+        <div class="bg-blue-50 p-2 rounded mt-2 text-center">
+            <p class="text-xs text-gray-700"><strong>Backpacking Score:</strong> {{ (food.calories / food.weight_raw)|round(2) }} cal/g</p>
+        </div>
+    {% endif %}
+
+    <!-- Description (if available) -->
+    {% if food.description %}
+        <p class="text-sm text-gray-600 italic">{{ food.description }}</p>
+    {% endif %}
+
+    <!-- Actions -->
+    <div class="flex gap-2 pt-3 border-t border-gray-200">
+        <a href="/edit/{{ food.id }}" class="btn btn-secondary flex-1 text-center">Edit</a>
+        <form method="POST" action="/delete/{{ food.id }}" class="flex-1" onsubmit="return confirm('Delete this food?')">
+            <button type="submit" class="btn btn-danger w-full">Delete</button>
+        </form>
+    </div>
+</div>

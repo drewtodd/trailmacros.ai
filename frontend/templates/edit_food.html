@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ food.name }} - TrailMacros{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-8">
+        <a href="/" class="text-blue-600 hover:underline flex items-center gap-1 mb-4">← Back to foods</a>
+        <h1 class="text-3xl font-bold">Edit Food</h1>
+    </div>
+
+    <form method="POST" action="/edit/{{ food.id }}" class="card space-y-6">
+        <!-- Food Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium mb-2">
+                Food Name <span aria-label="required">*</span>
+            </label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                value="{{ food.name }}"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                aria-required="true"
+            />
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label for="description" class="block text-sm font-medium mb-2">Description</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+            >{{ food.description or '' }}</textarea>
+        </div>
+
+        <!-- Macronutrients Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Macronutrients (per 100g)</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Calories -->
+                <div>
+                    <label for="calories" class="block text-sm font-medium mb-2">
+                        Calories (kcal) <span aria-label="required">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="calories"
+                        name="calories"
+                        required
+                        step="0.1"
+                        value="{{ food.calories }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                        aria-required="true"
+                    />
+                </div>
+
+                <!-- Protein -->
+                <div>
+                    <label for="protein" class="block text-sm font-medium mb-2">Protein (g)</label>
+                    <input
+                        type="number"
+                        id="protein"
+                        name="protein"
+                        step="0.1"
+                        value="{{ food.protein }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+
+                <!-- Carbs -->
+                <div>
+                    <label for="carbs" class="block text-sm font-medium mb-2">Carbs (g)</label>
+                    <input
+                        type="number"
+                        id="carbs"
+                        name="carbs"
+                        step="0.1"
+                        value="{{ food.carbs }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+
+                <!-- Fat -->
+                <div>
+                    <label for="fat" class="block text-sm font-medium mb-2">Fat (g)</label>
+                    <input
+                        type="number"
+                        id="fat"
+                        name="fat"
+                        step="0.1"
+                        value="{{ food.fat }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Weight Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Weight Information (for backpacking optimization)</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Raw Weight -->
+                <div>
+                    <label for="weight_raw" class="block text-sm font-medium mb-2">Raw Weight (g)</label>
+                    <input
+                        type="number"
+                        id="weight_raw"
+                        name="weight_raw"
+                        step="0.1"
+                        value="{{ food.weight_raw or '' }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                    <p class="text-xs text-gray-600 mt-1">Weight before cooking/preparation</p>
+                </div>
+
+                <!-- Prepared Weight -->
+                <div>
+                    <label for="weight_prepared" class="block text-sm font-medium mb-2">Prepared Weight (g)</label>
+                    <input
+                        type="number"
+                        id="weight_prepared"
+                        name="weight_prepared"
+                        step="0.1"
+                        value="{{ food.weight_prepared or '' }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                    <p class="text-xs text-gray-600 mt-1">Weight after cooking/preparation</p>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Source & Category Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Details</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Source -->
+                <div>
+                    <label for="source" class="block text-sm font-medium mb-2">Source</label>
+                    <select
+                        id="source"
+                        name="source"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    >
+                        <option value="personal" {% if food.source == 'personal' %}selected{% endif %}>Personal Entry</option>
+                        <option value="usda" {% if food.source == 'usda' %}selected{% endif %}>USDA Database</option>
+                        <option value="brand" {% if food.source == 'brand' %}selected{% endif %}>Branded Item</option>
+                    </select>
+                </div>
+
+                <!-- Category -->
+                <div>
+                    <label for="category" class="block text-sm font-medium mb-2">Category</label>
+                    <select
+                        id="category"
+                        name="category"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    >
+                        <option value="" {% if not food.category %}selected{% endif %}>None</option>
+                        <option value="protein" {% if food.category == 'protein' %}selected{% endif %}>Protein</option>
+                        <option value="carbs" {% if food.category == 'carbs' %}selected{% endif %}>Carbs</option>
+                        <option value="fat" {% if food.category == 'fat' %}selected{% endif %}>Fats</option>
+                        <option value="snack" {% if food.category == 'snack' %}selected{% endif %}>Snacks</option>
+                        <option value="supplement" {% if food.category == 'supplement' %}selected{% endif %}>Supplement</option>
+                    </select>
+                </div>
+
+                <!-- Brand -->
+                <div>
+                    <label for="brand" class="block text-sm font-medium mb-2">Brand (optional)</label>
+                    <input
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        value="{{ food.brand or '' }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Form Actions -->
+        <div class="flex gap-4 pt-4">
+            <button type="submit" class="btn btn-primary flex-1">Save Changes</button>
+            <a href="/" class="btn btn-secondary flex-1 text-center">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

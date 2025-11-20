@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Food - TrailMacros{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-8">
+        <a href="/" class="text-blue-600 hover:underline flex items-center gap-1 mb-4">← Back to foods</a>
+        <h1 class="text-3xl font-bold">Add New Food</h1>
+    </div>
+
+    <form method="POST" action="/add" class="card space-y-6">
+        <!-- Food Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium mb-2">
+                Food Name <span aria-label="required">*</span>
+            </label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="e.g., Almonds, Chicken Breast, Brown Rice"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                aria-required="true"
+            />
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label for="description" class="block text-sm font-medium mb-2">Description</label>
+            <textarea
+                id="description"
+                name="description"
+                placeholder="e.g., Raw, unsalted"
+                rows="2"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+            ></textarea>
+        </div>
+
+        <!-- Macronutrients Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Macronutrients (per 100g)</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Calories -->
+                <div>
+                    <label for="calories" class="block text-sm font-medium mb-2">
+                        Calories (kcal) <span aria-label="required">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="calories"
+                        name="calories"
+                        required
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                        aria-required="true"
+                    />
+                </div>
+
+                <!-- Protein -->
+                <div>
+                    <label for="protein" class="block text-sm font-medium mb-2">Protein (g)</label>
+                    <input
+                        type="number"
+                        id="protein"
+                        name="protein"
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+
+                <!-- Carbs -->
+                <div>
+                    <label for="carbs" class="block text-sm font-medium mb-2">Carbs (g)</label>
+                    <input
+                        type="number"
+                        id="carbs"
+                        name="carbs"
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+
+                <!-- Fat -->
+                <div>
+                    <label for="fat" class="block text-sm font-medium mb-2">Fat (g)</label>
+                    <input
+                        type="number"
+                        id="fat"
+                        name="fat"
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Weight Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Weight Information (for backpacking optimization)</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Raw Weight -->
+                <div>
+                    <label for="weight_raw" class="block text-sm font-medium mb-2">Raw Weight (g)</label>
+                    <input
+                        type="number"
+                        id="weight_raw"
+                        name="weight_raw"
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                    <p class="text-xs text-gray-600 mt-1">Weight before cooking/preparation</p>
+                </div>
+
+                <!-- Prepared Weight -->
+                <div>
+                    <label for="weight_prepared" class="block text-sm font-medium mb-2">Prepared Weight (g)</label>
+                    <input
+                        type="number"
+                        id="weight_prepared"
+                        name="weight_prepared"
+                        step="0.1"
+                        placeholder="0"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                    <p class="text-xs text-gray-600 mt-1">Weight after cooking/preparation</p>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Source & Category Section -->
+        <fieldset class="border border-gray-300 rounded-lg p-4">
+            <legend class="text-lg font-bold mb-4">Details</legend>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Source -->
+                <div>
+                    <label for="source" class="block text-sm font-medium mb-2">Source</label>
+                    <select
+                        id="source"
+                        name="source"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    >
+                        <option value="personal" selected>Personal Entry</option>
+                        <option value="usda">USDA Database</option>
+                        <option value="brand">Branded Item</option>
+                    </select>
+                </div>
+
+                <!-- Category -->
+                <div>
+                    <label for="category" class="block text-sm font-medium mb-2">Category</label>
+                    <select
+                        id="category"
+                        name="category"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    >
+                        <option value="">None</option>
+                        <option value="protein">Protein</option>
+                        <option value="carbs">Carbs</option>
+                        <option value="fat">Fats</option>
+                        <option value="snack">Snacks</option>
+                        <option value="supplement">Supplement</option>
+                    </select>
+                </div>
+
+                <!-- Brand -->
+                <div>
+                    <label for="brand" class="block text-sm font-medium mb-2">Brand (optional)</label>
+                    <input
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        placeholder="e.g., Mountain House, Trader Joe's"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Form Actions -->
+        <div class="flex gap-4 pt-4">
+            <button type="submit" class="btn btn-primary flex-1">Add Food</button>
+            <a href="/" class="btn btn-secondary flex-1 text-center">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

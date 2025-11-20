@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Food Lookup - TrailMacros{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="text-center space-y-2">
+        <h1 class="text-4xl font-bold">TrailMacros</h1>
+        <p class="text-lg text-gray-600">Nutrition tracking for backpacking and fitness</p>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="card space-y-4">
+        <h2 class="text-2xl font-bold">Find Foods</h2>
+
+        <div class="space-y-4">
+            <!-- Search Input with htmx live search -->
+            <div>
+                <label for="search" class="block text-sm font-medium mb-2">Search by name</label>
+                <input
+                    type="text"
+                    id="search"
+                    name="search"
+                    placeholder="e.g., Almonds, Chicken, Rice..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    hx-get="/api/foods"
+                    hx-trigger="keyup changed delay:300ms"
+                    hx-target="#food-results"
+                    hx-swap="innerHTML"
+                />
+            </div>
+
+            <!-- Category Filter -->
+            <div>
+                <label for="category" class="block text-sm font-medium mb-2">Category</label>
+                <select
+                    id="category"
+                    name="category"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    hx-get="/api/foods"
+                    hx-trigger="change"
+                    hx-target="#food-results"
+                    hx-swap="innerHTML"
+                >
+                    <option value="">All Categories</option>
+                    <option value="protein">Protein</option>
+                    <option value="carbs">Carbs</option>
+                    <option value="fat">Fats</option>
+                    <option value="snack">Snacks</option>
+                </select>
+            </div>
+
+            <!-- Source Filter -->
+            <div>
+                <label for="source" class="block text-sm font-medium mb-2">Source</label>
+                <select
+                    id="source"
+                    name="source"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus-visible:outline-2 focus-visible:outline-blue-500"
+                    hx-get="/api/foods"
+                    hx-trigger="change"
+                    hx-target="#food-results"
+                    hx-swap="innerHTML"
+                >
+                    <option value="">All Sources</option>
+                    <option value="personal">Personal Entries</option>
+                    <option value="usda">USDA Database</option>
+                    <option value="brand">Branded Items</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Results Section -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-bold">Foods</h2>
+
+        {% if foods %}
+            <div id="food-results" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {% for food in foods %}
+                    {% include 'partials/food_card.html' %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div id="food-results" class="card text-center py-12 text-gray-600">
+                <p>No foods found. <a href="/add" class="text-blue-600 hover:underline">Add one to get started!</a></p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Stats Section (future enhancement) -->
+    <div class="card">
+        <h2 class="text-2xl font-bold mb-4">Quick Stats</h2>
+        <p class="text-gray-600">Total foods: <strong>{{ foods|length }}</strong></p>
+    </div>
+</div>
+
+<script>
+    // Configure htmx for AJAX requests
+    document.addEventListener('htmx:configRequest', function(event) {
+        // Add any custom headers if needed
+    });
+
+    // Handle htmx response errors
+    document.addEventListener('htmx:responseError', function(event) {
+        console.error('AJAX Error:', event.detail);
+    });
+</script>
+{% endblock %}
