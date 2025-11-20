@@ -114,6 +114,30 @@
         .btn-danger:hover {
             background-color: #dc2626;
         }
+
+        /* Input field styling for WCAG compliance */
+        input,
+        select,
+        textarea {
+            color: #111827; /* Ensure dark text on light inputs */
+            background-color: #ffffff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            input,
+            select,
+            textarea {
+                color: #111827; /* Keep dark text for readability */
+                background-color: #ffffff;
+            }
+        }
+
+        /* Placeholder text with proper contrast */
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af; /* gray-400 for readable but subtle placeholders */
+            opacity: 1;
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
