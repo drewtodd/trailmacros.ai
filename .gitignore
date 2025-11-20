@@ -44,9 +44,13 @@ instance/
 .env
 .env.local
 
-# Tailwind
+# Node/npm
 node_modules/
+package-lock.json
 dist/
+
+# Tailwind output (generated, don't commit)
+frontend/assets/css/output.css
 
 # Logs
 *.log

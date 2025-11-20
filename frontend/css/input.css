@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom component styles */
+@layer components {
+  .btn {
+    @apply inline-block px-4 py-2.5 rounded-md font-medium text-base transition-all cursor-pointer border-none;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+
+  .card {
+    @apply bg-gray-50 border border-gray-200 rounded-md p-6 shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  .badge {
+    @apply inline-block px-3 py-1 rounded-md text-sm font-medium;
+  }
+
+  .badge-blue {
+    @apply bg-blue-50 text-blue-700;
+  }
+
+  .badge-green {
+    @apply bg-green-50 text-green-600;
+  }
+
+  .badge-red {
+    @apply bg-red-50 text-red-700;
+  }
+}
+
+/* WCAG Accessibility */
+@layer base {
+  /* Skip to main content link */
+  .skip-to-main {
+    @apply absolute -top-10 left-0 bg-blue-600 text-white px-4 py-2 z-50 font-medium;
+  }
+
+  .skip-to-main:focus {
+    @apply top-0;
+  }
+
+  /* Focus visible styles */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-4 outline-offset-2 outline-blue-600;
+  }
+
+  /* Input styling for WCAG compliance */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="search"],
+  select,
+  textarea {
+    @apply text-gray-900;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-400;
+  }
+}
+
+/* htmx loading states */
+.htmx-swapping {
+  @apply opacity-100 transition-opacity duration-200 ease-out;
+}
+
+.htmx-settling {
+  @apply opacity-100;
+}
